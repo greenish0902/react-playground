@@ -1,0 +1,17 @@
+li {
+  padding-bottom: 24px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+span.info:after {
+  content: "·";
+  margin: 0 8px 0 8px;
+}
+
+span.info:last-child:after {
+  content: "";
+}
