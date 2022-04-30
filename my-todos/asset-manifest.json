@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/react-playground/my-todos/static/js/main.7c017f5a.js",
+    "main.js": "/react-playground/my-todos/static/js/main.ccc497fe.js",
     "index.html": "/react-playground/my-todos/index.html",
-    "main.7c017f5a.js.map": "/react-playground/my-todos/static/js/main.7c017f5a.js.map"
+    "main.ccc497fe.js.map": "/react-playground/my-todos/static/js/main.ccc497fe.js.map"
   },
   "entrypoints": [
-    "static/js/main.7c017f5a.js"
+    "static/js/main.ccc497fe.js"
   ]
 }
