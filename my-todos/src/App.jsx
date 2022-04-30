@@ -1,51 +1,38 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useCallback } from "react";
+
+import Navbar from "./components/Navbar";
 import MemoInput from "./components/MemoInput";
 import MemoItems from "./components/MemoItems";
-
-const Navbar = styled.nav`
-  margin: 24px 0;
-  height: ${(props) => props.height ?? "64px"};
-  line-height: ${(props) => props.height ?? "64px"};
-  text-align: center;
-  color: darkslategary;
-  background-color: #f0f8ff;
-`;
 
 const App = () => {
   const [items, setItems] = useState([]);
 
-  const handleNewItem = (newItem) => {
-    setItems((prevItems) => [
-      ...prevItems,
-      { id: items.length + 1, ...newItem },
-    ]);
-  };
-
-  const handleUpdate = (selectedId) => {
+  const handleNewItem = useCallback((newItem) => {
+    setItems((prevItems) => [{ ...newItem }, ...prevItems]);
+  }, []);
+  const handleUpdate = useCallback((selectedId) => {
     if (!selectedId) return;
-    setItems(
+    setItems((items) =>
       items.map((item) => {
         if (selectedId === item.id) {
-          const newTitle = window.prompt("new TITLE here") || item.title;
-          const newContent = window.prompt("new CONTENT here") || item.content;
+          const newTitle =
+            window.prompt("new TITLE here", item.title) || item.title;
+          const newContent =
+            window.prompt("new CONTENT here", item.content) || item.content;
           return { ...item, title: newTitle, content: newContent };
         }
         return item;
       })
     );
-  };
-
-  const handleDelete = (selectedId) => {
+  }, []);
+  const handleDelete = useCallback((selectedId) => {
     if (!selectedId) return;
-    setItems(items.filter((item) => selectedId !== item.id));
-  };
+    setItems((items) => items.filter((item) => selectedId !== item.id));
+  }, []);
 
   return (
     <div>
-      <Navbar height="48px">
-        <h1>Memo App</h1>
-      </Navbar>
+      <Navbar />
       <MemoItems
         items={items}
         handleUpdate={handleUpdate}

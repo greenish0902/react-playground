@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import styled from "styled-components";
+import { nanoid } from "nanoid";
 
-const MemoForm = styled.form`
+const MemoForm = memo(styled.form`
   display: flex;
   flex-direction: column;
   .smallBox {
@@ -12,9 +13,9 @@ const MemoForm = styled.form`
   button {
     background-color: #f0f8ff;
   }
-`;
+`);
 
-const MemoInput = (props) => {
+const MemoInput = memo((props) => {
   const [memoItem, setMemoItem] = useState({
     title: "",
     content: "",
@@ -35,7 +36,7 @@ const MemoInput = (props) => {
     event.preventDefault();
     event.target.firstChild.focus();
     if (!(memoItem.title && memoItem.content)) return;
-    props.addItem(memoItem);
+    props.addItem({ ...memoItem, id: nanoid(10) });
     resetInputs();
   };
 
@@ -58,6 +59,6 @@ const MemoInput = (props) => {
       <button className="smallBox">ADD</button>
     </MemoForm>
   );
-};
+});
 
 export default MemoInput;
