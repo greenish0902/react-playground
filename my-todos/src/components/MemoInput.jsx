@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const MemoForm = styled.form`
@@ -11,19 +11,24 @@ const MemoInput = (props) => {
     title: "",
     content: "",
   });
+
   const { title, content } = memoItem;
   const handleInput = (event) => {
     const { name, value } = event.target;
     setMemoItem({ ...memoItem, [name]: value });
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!(memoItem.title && memoItem.content)) return;
-    props.addItem(memoItem);
+  const resetInputs = () => {
     setMemoItem({
       title: "",
       content: "",
     });
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    event.target.firstChild.focus();
+    if (!(memoItem.title && memoItem.content)) return;
+    props.addItem(memoItem);
+    resetInputs();
   };
 
   return (

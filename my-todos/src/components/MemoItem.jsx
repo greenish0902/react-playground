@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { IoIosCreate, IoIosTrash } from "react-icons/io";
 
 const ItemBox = styled.div`
@@ -9,10 +9,12 @@ const ItemBox = styled.div`
   height: 200px;
   margin: 12px;
   padding: 12px;
-  background-color: #ffd3d8;
-  /* background-color:{color}; */
+  background-color: ${(props) => props.color ?? "#fff"};
+  border-radius: 12px;
+  box-shadow: 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05);
 `;
-// shadow
 
 const SmallBtn = styled.span`
   position: absolute;
@@ -32,12 +34,10 @@ const SmallBtn = styled.span`
   }
 `;
 
-// 난수생성 색상주기
-// 색상배열만들기
-// delete button
 const MemoItem = (props) => {
-  const handleUpdate = (event) => props.onUpdate(props.item.id);
-  const handleDelete = (event) => props.onDelete(props.item.id);
+  const handleUpdate = () => props.onUpdate(props.item.id);
+  const handleDelete = () => props.onDelete(props.item.id);
+
   return (
     <ItemBox>
       <h3 className="title">{props.item.title}</h3>
