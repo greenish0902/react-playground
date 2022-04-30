@@ -9,6 +9,8 @@ const ItemBox = styled.div`
   height: 200px;
   margin: 12px;
   padding: 12px;
+  overflow-y: scroll;
+  line-height: 1.5;
   background-color: ${(props) => props.color ?? "#fff"};
   border-radius: 12px;
   box-shadow: 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
@@ -23,13 +25,13 @@ const SmallBtn = styled.span`
   &.updateBtn {
     right: 32px;
     &:hover {
-      color: yellowgreen;
+      color: #03c900;
     }
   }
   &.removeBtn {
     right: 12px;
     &:hover {
-      color: red;
+      color: #ff0015;
     }
   }
 `;

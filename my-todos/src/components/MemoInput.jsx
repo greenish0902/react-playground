@@ -4,6 +4,14 @@ import styled from "styled-components";
 const MemoForm = styled.form`
   display: flex;
   flex-direction: column;
+  .smallBox {
+    padding: 12px;
+    margin: 8px 32px;
+    border: 1px solid #eee;
+  }
+  button {
+    background-color: #f0f8ff;
+  }
 `;
 
 const MemoInput = (props) => {
@@ -34,18 +42,20 @@ const MemoInput = (props) => {
   return (
     <MemoForm onSubmit={handleSubmit}>
       <input
+        className="smallBox"
         name="title"
         value={title}
         onChange={handleInput}
         placeholder="title"
       />
       <input
+        className="smallBox"
         name="content"
         value={content}
         onChange={handleInput}
         placeholder="new memo..."
       />
-      <button>ADD</button>
+      <button className="smallBox">ADD</button>
     </MemoForm>
   );
 };

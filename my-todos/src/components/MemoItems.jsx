@@ -5,6 +5,7 @@ import styled from "styled-components";
 const MemoItemsBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const MemoItems = ({ items, handleUpdate, handleDelete }) => {

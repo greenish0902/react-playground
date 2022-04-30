@@ -4,11 +4,12 @@ import MemoInput from "./components/MemoInput";
 import MemoItems from "./components/MemoItems";
 
 const Navbar = styled.nav`
+  margin: 24px 0;
   height: ${(props) => props.height ?? "64px"};
   line-height: ${(props) => props.height ?? "64px"};
   text-align: center;
   color: darkslategary;
-  background-color: #f3f3f3;
+  background-color: #f0f8ff;
 `;
 
 const App = () => {
