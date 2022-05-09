@@ -14,9 +14,9 @@ const MemoItems = ({ items, handleUpdate, handleDelete }) => {
       {items.map((item) => (
         <MemoItem
           item={item}
-          key={item.id}
           onUpdate={handleUpdate}
           onDelete={handleDelete}
+          key={item.id}
         />
       ))}
     </MemoItemsBlock>

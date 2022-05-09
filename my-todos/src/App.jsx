@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import MemoInput from "./components/MemoInput";
-import MemoItems from "./components/MemoItems";
+import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
+import Memo from "./pages/Memo";
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -33,12 +35,30 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <MemoItems
-        items={items}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
-      <MemoInput addItem={handleNewItem} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              items={items}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+            />
+          }
+        />
+        <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/memo"
+          element={
+            <Memo
+              items={items}
+              onAddItem={handleNewItem}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 };
