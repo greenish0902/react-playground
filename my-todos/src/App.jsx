@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -8,7 +9,20 @@ import Memo from "./pages/Memo";
 
 const App = () => {
   const [items, setItems] = useState([]);
-  const [signIn, setSignIn] = useState(false);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/data/${username}`
+        );
+        setItems(response.data.memo);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [username]);
 
   const handleNewItem = useCallback((newItem) => {
     setItems((prevItems) => [{ ...newItem }, ...prevItems]);
@@ -32,14 +46,14 @@ const App = () => {
     if (!selectedId) return;
     setItems((items) => items.filter((item) => selectedId !== item.id));
   }, []);
-  const handleSignIn = useCallback((result) => setSignIn(result), []);
+  const handleSignIn = useCallback((username) => setUsername(username), []);
 
   return (
-    <div>
-      <Navbar />
+    <>
+      <Navbar display={username} />
       <Routes>
         <Route
-          path="/"
+          path={username ? "/" : "/home"}
           element={
             <Home
               items={items}
@@ -49,8 +63,8 @@ const App = () => {
           }
         />
         <Route
-          path="/signin"
-          element={<SignIn display={signIn} onSignIn={handleSignIn} />}
+          path={username ? "/signin" : "/"}
+          element={<SignIn display={username} onSignIn={handleSignIn} />}
         />
         <Route
           path="/memo"
@@ -64,7 +78,7 @@ const App = () => {
           }
         />
       </Routes>
-    </div>
+    </>
   );
 };
 

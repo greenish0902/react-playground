@@ -10,16 +10,18 @@ const MemoItemsBlock = styled.div`
 
 const MemoItems = ({ items, handleUpdate, handleDelete }) => {
   return (
-    <MemoItemsBlock>
-      {items.map((item) => (
-        <MemoItem
-          item={item}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
-          key={item.id}
-        />
-      ))}
-    </MemoItemsBlock>
+    items && (
+      <MemoItemsBlock>
+        {items.map((item, index) => (
+          <MemoItem
+            item={item}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+            key={item.id || index}
+          />
+        ))}
+      </MemoItemsBlock>
+    )
   );
 };
 

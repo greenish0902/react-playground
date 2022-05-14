@@ -32,21 +32,18 @@ const MemoInput = memo((props) => {
   });
   const { title, content, datetime } = memoItem;
 
-  const handleInput = useCallback(
-    (event) => {
-      const { name, value } = event.target;
-      setMemoItem((memoItem) => ({ ...memoItem, [name]: value }));
-    },
-    [memoItem]
-  );
+  const handleInput = useCallback((event) => {
+    const { name, value } = event.target;
+    setMemoItem((memoItem) => ({ ...memoItem, [name]: value }));
+  }, []);
   const resetInputs = useCallback(() => {
-    setMemoItem({
+    setMemoItem(() => ({
       title: "",
       content: "",
       datetime: "",
       color: "default",
-    });
-  }, [memoItem]);
+    }));
+  }, []);
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();

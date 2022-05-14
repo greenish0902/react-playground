@@ -7,11 +7,13 @@ const Memo = ({ items, onAddItem, onUpdate, onDelete }) => {
   return (
     <div>
       <MemoInput addItem={onAddItem} />
-      <MemoItems
-        items={items}
-        handleUpdate={onUpdate}
-        handleDelete={onDelete}
-      />
+      {items && (
+        <MemoItems
+          items={items}
+          handleUpdate={onUpdate}
+          handleDelete={onDelete}
+        />
+      )}
     </div>
   );
 };

@@ -21,10 +21,10 @@ const NavSection = styled.nav`
   }
 `;
 
-const Navbar = () => {
+const Navbar = ({ display }) => {
   return (
     <NavSection>
-      <NavLink to="/signin">Sign In</NavLink>
+      <NavLink to={display ? "/signin" : "/"}>Sign In</NavLink>
       <NavLink to="/">
         <h1>Memo App</h1>
       </NavLink>

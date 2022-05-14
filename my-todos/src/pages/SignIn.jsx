@@ -37,14 +37,15 @@ const SignIn = ({ display, onSignIn }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (display) return onSignIn(false);
+    const temp = {
+      id: formRef.current.id.value,
+      pw: formRef.current.password.value,
+    };
     users.forEach((user) => {
-      if (
-        user.id == formRef.current.id.value &&
-        user.password == formRef.current.password.value
-      ) {
-        return onSignIn(true);
-      }
+      if (user.id == temp.id && user.password == temp.pw)
+        return onSignIn(user.id);
     });
+    event.target.reset();
   };
 
   return (
