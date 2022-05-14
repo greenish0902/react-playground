@@ -8,6 +8,7 @@ import Memo from "./pages/Memo";
 
 const App = () => {
   const [items, setItems] = useState([]);
+  const [signIn, setSignIn] = useState(false);
 
   const handleNewItem = useCallback((newItem) => {
     setItems((prevItems) => [{ ...newItem }, ...prevItems]);
@@ -31,6 +32,7 @@ const App = () => {
     if (!selectedId) return;
     setItems((items) => items.filter((item) => selectedId !== item.id));
   }, []);
+  const handleSignIn = useCallback((result) => setSignIn(result), []);
 
   return (
     <div>
@@ -46,7 +48,10 @@ const App = () => {
             />
           }
         />
-        <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/signin"
+          element={<SignIn display={signIn} onSignIn={handleSignIn} />}
+        />
         <Route
           path="/memo"
           element={

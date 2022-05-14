@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const SignInContainer = styled.div`
   width: 420px;
@@ -18,16 +19,63 @@ const SignInContainer = styled.div`
   }
 `;
 
-const SignIn = () => {
+const SignIn = ({ display, onSignIn }) => {
   const formRef = useRef(null);
+  const [users, setUsers] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/users");
+        setUsers(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (display) return onSignIn(false);
+    users.forEach((user) => {
+      if (
+        user.id == formRef.current.id.value &&
+        user.password == formRef.current.password.value
+      ) {
+        return onSignIn(true);
+      }
+    });
+  };
+
   return (
     <SignInContainer>
-      <form action="submit" ref={formRef}>
-        <h2>Sign In</h2>
-        <label htmlFor="id">ID</label>
-        <input type="text" name="id" className="smallBox" />
-        <label htmlFor="password">Password</label>
-        <input type="text" name="password" className="smallBox" />
+      <form ref={formRef} onSubmit={handleSubmit}>
+        {display ? (
+          <>
+            <h2>Sign Out</h2>
+          </>
+        ) : (
+          <>
+            <h2>Sign In</h2>
+            <label htmlFor="id">ID</label>
+            <input
+              name="id"
+              type="text"
+              required
+              autoComplete="username"
+              className="smallBox"
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              name="password"
+              type="password"
+              required
+              className="smallBox"
+              autoComplete="current-password"
+            />
+          </>
+        )}
+        <button className="smallBox">submit</button>
       </form>
     </SignInContainer>
   );

@@ -1,0 +1,12 @@
+{
+  "users": [
+    { "id": "id", "password": "password" },
+    { "id": "sohui", "password": "0000" },
+    { "id": "hello", "password": "world" }
+  ],
+  "memos": {
+    "id": {},
+    "sohui": {},
+    "hello": {}
+  }
+}
