@@ -62,9 +62,17 @@ const App = () => {
     },
     [items]
   );
-  const handleUpdate = () => {
-    console.log("update");
-  };
+  const handleUpdate = useCallback(({ id, title, content }) => {
+    setItems((items) =>
+      items.map((item) => {
+        if (item.id === id) {
+          item.title = title;
+          item.content = content;
+        }
+        return item;
+      })
+    );
+  }, []);
   const handleDelete = useCallback((selectedId) => {
     if (!selectedId) return;
     setItems((items) => items.filter((item) => selectedId !== item.id));

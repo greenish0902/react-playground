@@ -5,10 +5,6 @@ import { nanoid } from "nanoid";
 const MemoForm = memo(styled.form`
   display: flex;
   flex-direction: column;
-  textarea {
-    resize: none;
-    line-height: 1.5;
-  }
   button {
     background-color: var(--color-light-blue-1);
   }

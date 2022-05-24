@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, useRef, memo } from "react";
 import styled from "styled-components";
 import {
   IoIosCreate,
@@ -17,7 +17,7 @@ const TransLayer = memo(styled.div`
   height: 100%;
 `);
 
-const ItemBox = memo(styled.div`
+const ItemBox = memo(styled.form`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -42,6 +42,7 @@ const ItemBox = memo(styled.div`
 `);
 
 const SmallBtn = memo(styled.span`
+  cursor: pointer;
   position: absolute;
   top: 0;
   padding: 4px;
@@ -49,9 +50,6 @@ const SmallBtn = memo(styled.span`
   opacity: 0.3;
   font-size: 20px;
   transition: all 300ms ease;
-  ${ItemBox}:hover & {
-    color: #c8c8c8;
-  }
   &.updateBtn {
     right: 48px;
     &:hover {
@@ -76,22 +74,79 @@ const SmallBtn = memo(styled.span`
   }
 `);
 
+const TextWrapper = memo(styled.div`
+  margin: 24px 0;
+  width: 100%;
+  height: 100%;
+  textarea {
+    padding: 12px;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    background-color: ${(props) => props.color};
+    opacity: 0.6;
+    &.titleArea {
+      height: 52px;
+    }
+    &.contentArea {
+      height: 80%;
+    }
+    &:focus {
+      opacity: 1;
+      background-color: #fff;
+    }
+  }
+`);
+
 const MemoItem = memo((props) => {
+  const formRef = useRef(null);
   const [updating, setUpdating] = useState(false);
   const { title, content, datetime, color, id } = props.item;
 
-  const handleUpdate = () => props.onUpdate(id);
+  const handleUpdate = () => {
+    setUpdating((updating) => !updating);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { title, content } = formRef.current;
+    props.onUpdate({ id, title: title.value, content: content.value });
+  };
   const handleDelete = () => props.onDelete(id);
-  const handleClose = () => props.onClose(id);
+  const handleClose = () => {
+    if (updating) return;
+    props.onClose();
+  };
 
   return (
     <TransLayer>
-      <ItemBox color={`var(--color-memo-${color})`}>
+      <ItemBox color={`var(--color-memo-${color})`} ref={formRef}>
         <span className="datetime">{datetime}</span>
-        <h3 className="title">{title}</h3>
-        <p className="content">{content}</p>
+        {updating ? (
+          <TextWrapper color={`var(--color-memo-${color})`}>
+            <textarea
+              name="title"
+              className="titleArea"
+              defaultValue={title}
+              placeholder="title"
+              autoFocus
+            ></textarea>
+            <textarea
+              name="content"
+              className="contentArea"
+              defaultValue={content}
+              placeholder="content"
+            ></textarea>
+          </TextWrapper>
+        ) : (
+          <div>
+            <h3 className="title">{title}</h3>
+            <p className="content">{content}</p>
+          </div>
+        )}
         <SmallBtn className="updateBtn" onClick={handleUpdate}>
-          {updating ? <IoIosSave /> : <IoIosCreate />}
+          {updating ? <IoIosSave onClick={handleSubmit} /> : <IoIosCreate />}
         </SmallBtn>
         <SmallBtn className="removeBtn" onClick={handleDelete}>
           <IoIosTrash />

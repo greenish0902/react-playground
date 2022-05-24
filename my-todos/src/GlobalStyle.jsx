@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
       opacity: 1;
     }
   }
+  textarea {
+    resize: none;
+    line-height: 1.5;
+  }
   .hidden {
     display: none;
   }
