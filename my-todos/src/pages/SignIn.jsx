@@ -42,7 +42,7 @@ const SignIn = ({ display, onSignIn }) => {
       pw: formRef.current.password.value,
     };
     users.forEach((user) => {
-      if (user.id == temp.id && user.password == temp.pw)
+      if (user.id === temp.id && user.password === temp.pw)
         return onSignIn(user.id);
     });
     event.target.reset();

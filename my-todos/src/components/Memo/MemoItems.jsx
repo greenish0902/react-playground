@@ -8,16 +8,16 @@ const MemoItemsBlock = styled.div`
   justify-content: center;
 `;
 
-const MemoItems = ({ items, handleUpdate, handleDelete }) => {
+const MemoItems = ({ items, handleClick, handleDelete }) => {
   return (
     items && (
       <MemoItemsBlock>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <MemoItem
             item={item}
-            onUpdate={handleUpdate}
+            onClick={handleClick}
             onDelete={handleDelete}
-            key={item.id || index}
+            key={item.id}
           />
         ))}
       </MemoItemsBlock>

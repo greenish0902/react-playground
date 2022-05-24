@@ -56,17 +56,17 @@ const SmallBtn = memo(styled.span`
 const MemoItem = memo((props) => {
   const { title, content, datetime, color, id } = props.item;
 
-  const handleUpdate = () => props.onUpdate(id);
+  const handleClick = () => props.onClick(id);
   const handleDelete = () => props.onDelete(id);
 
   return (
-    <ItemBox color={`var(--color-memo-${color})`}>
+    <ItemBox color={`var(--color-memo-${color})`} onClick={handleClick}>
       <span className="datetime">{datetime}</span>
       <h3 className="title">{title}</h3>
       <p className="content">{content}</p>
-      <SmallBtn className="updateBtn" onClick={handleUpdate}>
+      {/* <SmallBtn className="updateBtn" onClick={handleClick}>
         <IoIosCreate />
-      </SmallBtn>
+      </SmallBtn> */}
       <SmallBtn className="removeBtn" onClick={handleDelete}>
         <IoIosTrash />
       </SmallBtn>

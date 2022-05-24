@@ -1,16 +1,16 @@
 import React from "react";
 
-import MemoInput from "../components/MemoInput";
-import MemoItems from "../components/MemoItems";
+import MemoInput from "../components/Memo/MemoInput";
+import MemoItems from "../components/Memo/MemoItems";
 
-const Memo = ({ items, onAddItem, onUpdate, onDelete }) => {
+const Memo = ({ items, onAddItem, onClick, onDelete }) => {
   return (
     <div>
-      <MemoInput addItem={onAddItem} />
+      <MemoInput handleCreate={onAddItem} />
       {items && (
         <MemoItems
           items={items}
-          handleUpdate={onUpdate}
+          handleClick={onClick}
           handleDelete={onDelete}
         />
       )}

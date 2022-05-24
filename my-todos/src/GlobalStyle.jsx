@@ -2,13 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   * {
-    margin: 120px 0;
-    padding: 0;
-    box-sizing: border-box;
     margin: auto;
-    max-width: 720px;
+    box-sizing: border-box;
   }
   body {
+    width: 100%;
+    height: 100%;
     background-color: #fff;
   }
   a {

@@ -22,7 +22,8 @@ const MemoForm = memo(styled.form`
   }
 `);
 
-const MemoInput = memo((props) => {
+const MemoInput = memo(({ handleCreate }) => {
+  const memoRef = useRef(null);
   const hiddenRef = useRef(null);
   const [memoItem, setMemoItem] = useState({
     title: "",
@@ -36,29 +37,26 @@ const MemoInput = memo((props) => {
     const { name, value } = event.target;
     setMemoItem((memoItem) => ({ ...memoItem, [name]: value }));
   }, []);
-  const resetInputs = useCallback(() => {
-    setMemoItem(() => ({
-      title: "",
-      content: "",
-      datetime: "",
-      color: "default",
-    }));
-  }, []);
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      event.target.firstChild.focus();
-      props.addItem({
+      memoRef.current.firstChild.focus();
+      handleCreate({
         ...memoItem,
-        datetime: datetime
-          ? new Date(datetime).toLocaleString()
+        datetime: memoItem.datetime
+          ? new Date(memoItem.datetime).toLocaleString()
           : new Date().toLocaleString(),
         id: nanoid(10),
       });
       hiddenRef.current.classList.add("hidden");
-      resetInputs();
+      setMemoItem(() => ({
+        title: "",
+        content: "",
+        datetime: "",
+        color: "default",
+      }));
     },
-    [memoItem]
+    [memoItem, handleCreate]
   );
   const handleDisplay = useCallback((event) => {
     event.preventDefault();
@@ -66,7 +64,7 @@ const MemoInput = memo((props) => {
   }, []);
 
   return (
-    <MemoForm onSubmit={handleSubmit}>
+    <MemoForm onSubmit={handleSubmit} ref={memoRef}>
       <textarea
         className="smallBox"
         rows="1"

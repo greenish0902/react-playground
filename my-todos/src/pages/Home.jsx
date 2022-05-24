@@ -1,15 +1,11 @@
 import React from "react";
 
-import MemoItems from "../components/MemoItems";
+import MemoItems from "../components/Memo/MemoItems";
 
-const Home = ({ items, onUpdate, onDelete }) => {
+const Home = ({ items, onClick, onDelete }) => {
   return (
     <div>
-      <MemoItems
-        items={items}
-        handleUpdate={onUpdate}
-        handleDelete={onDelete}
-      />
+      <MemoItems items={items} handleClick={onClick} handleDelete={onDelete} />
     </div>
   );
 };
