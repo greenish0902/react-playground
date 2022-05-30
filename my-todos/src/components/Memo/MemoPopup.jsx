@@ -17,13 +17,15 @@ const TransLayer = memo(styled.div`
   height: 100%;
 `);
 
-const ItemBox = memo(styled.form`
+const ItemForm = memo(styled.form`
   position: absolute;
   top: 50%;
   left: 50%;
   box-sizing: border-box;
   width: 600px;
   height: 600px;
+  max-width: 80%;
+  max-height: 80%;
   margin: 12px;
   font-size: 20px;
   line-height: 1.5;
@@ -114,14 +116,19 @@ const MemoItem = memo((props) => {
     props.onUpdate({ id, title: title.value, content: content.value });
   };
   const handleDelete = () => props.onDelete(id);
-  const handleClose = () => {
+  const handleClose = (event) => {
     if (updating) return;
+    if (
+      formRef.current.contains(event.target) &&
+      !event.currentTarget.classList.contains("closeBtn")
+    )
+      return;
     props.onClose();
   };
 
   return (
-    <TransLayer>
-      <ItemBox color={`var(--color-memo-${color})`} ref={formRef}>
+    <TransLayer onClick={handleClose}>
+      <ItemForm color={`var(--color-memo-${color})`} ref={formRef}>
         <span className="datetime">{datetime}</span>
         {updating ? (
           <TextWrapper color={`var(--color-memo-${color})`}>
@@ -154,7 +161,7 @@ const MemoItem = memo((props) => {
         <SmallBtn className="closeBtn" onClick={handleClose}>
           <IoIosCloseCircle />
         </SmallBtn>
-      </ItemBox>
+      </ItemForm>
     </TransLayer>
   );
 });

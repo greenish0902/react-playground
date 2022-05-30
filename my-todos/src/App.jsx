@@ -57,7 +57,10 @@ const App = () => {
   const handleClick = useCallback(
     (selectedId) => {
       items.forEach((item) => {
-        if (selectedId === item.id) setPopup(item);
+        if (selectedId === item.id) {
+          setPopup(item);
+          return (document.body.style.overflow = "hidden");
+        }
       });
     },
     [items]
@@ -79,7 +82,10 @@ const App = () => {
     setPopup({});
   }, []);
   const handleSignIn = useCallback((username) => setUsername(username), []);
-  const handleClose = useCallback(() => setPopup({}), []);
+  const handleClose = useCallback(() => {
+    setPopup({});
+    return (document.body.style.overflow = "scroll");
+  }, []);
 
   return (
     <>
