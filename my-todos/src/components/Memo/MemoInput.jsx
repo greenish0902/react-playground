@@ -33,6 +33,7 @@ const MemoInput = memo(({ handleCreate }) => {
     const { name, value } = event.target;
     setMemoItem((memoItem) => ({ ...memoItem, [name]: value }));
   }, []);
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();

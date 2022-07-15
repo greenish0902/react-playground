@@ -28,6 +28,9 @@ const GlobalStyle = createGlobalStyle`
     resize: none;
     line-height: 1.5;
   }
+  input, textarea, select {
+    outline: none;
+  }
   .hidden {
     display: none;
   }

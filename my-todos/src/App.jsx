@@ -1,14 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useCallback } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import Memo from "./pages/Memo";
+import Error404 from "./pages/Error404";
+import Navbar from "./components/Navbar";
 import MemoPopUp from "./components/Memo/MemoPopup";
-import Spinner from "./components/Spinner";
 
 const AppContainer = styled.div`
   margin: auto;
@@ -16,81 +15,28 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
-  const [items, setItems] = useState([]);
   const [username, setUsername] = useState("");
   const [popup, setPopup] = useState({});
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!username) return;
-    (async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/data?username=${username}`
-        );
-        setItems(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [username]);
-
-  const handleNewItem = useCallback(
-    (newItem) => {
-      setLoading(true);
-      (async () => {
-        try {
-          await axios.post(`http://localhost:3001/data`, {
-            ...newItem,
-            username,
-          });
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      })();
-      setItems((prevItems) => [{ ...newItem }, ...prevItems]);
+  const handleClick = useCallback((selectedId) => {}, []);
+  const handleUpdate = useCallback(() => {}, []);
+  const handleDelete = useCallback(() => {}, []);
+  const handleSignIn = useCallback(
+    (username) => {
+      if (username === "") navigate("/");
+      return setUsername(username);
     },
-    [username]
+    [navigate]
   );
-  const handleClick = useCallback(
-    (selectedId) => {
-      items.forEach((item) => {
-        if (selectedId === item.id) {
-          setPopup(item);
-          return (document.body.style.overflow = "hidden");
-        }
-      });
-    },
-    [items]
-  );
-  const handleUpdate = useCallback(({ id, title, content }) => {
-    setItems((items) =>
-      items.map((item) => {
-        if (item.id === id) {
-          item.title = title;
-          item.content = content;
-        }
-        return item;
-      })
-    );
-  }, []);
-  const handleDelete = useCallback((selectedId) => {
-    if (!selectedId) return;
-    setItems((items) => items.filter((item) => selectedId !== item.id));
-    setPopup({});
-  }, []);
-  const handleSignIn = useCallback((username) => setUsername(username), []);
   const handleClose = useCallback(() => {
-    setPopup({});
+    setPopup(() => {});
     return (document.body.style.overflow = "scroll");
   }, []);
 
   return (
     <>
-      {loading && <Spinner visible={loading} />}
-      {popup.id && (
+      {popup?.id && (
         <MemoPopUp
           item={popup}
           onUpdate={handleUpdate}
@@ -99,13 +45,13 @@ const App = () => {
         />
       )}
       <AppContainer>
-        <Navbar display={username} />
+        <Navbar signIn={username} />
         <Routes>
           <Route
             path={username ? "/" : "/home"}
             element={
               <Home
-                items={items}
+                username={username}
                 onClick={handleClick}
                 onDelete={handleDelete}
               />
@@ -113,19 +59,20 @@ const App = () => {
           />
           <Route
             path={username ? "/signin" : "/"}
-            element={<SignIn display={username} onSignIn={handleSignIn} />}
+            element={<SignIn signIn={username} onSignIn={handleSignIn} />}
           />
           <Route
-            path="/memo"
+            path={username ? "/memo" : "/"}
             element={
               <Memo
-                items={items}
-                onAddItem={handleNewItem}
+                username={username}
+                // onAddItem={handleNewItem}
                 onClick={handleClick}
                 onDelete={handleDelete}
               />
             }
           />
+          <Route path="/*" element={<Error404 />} />
         </Routes>
       </AppContainer>
     </>

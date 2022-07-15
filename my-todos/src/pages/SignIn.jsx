@@ -19,7 +19,7 @@ const SignInContainer = styled.div`
   }
 `;
 
-const SignIn = ({ display, onSignIn }) => {
+const SignIn = ({ signIn, onSignIn }) => {
   const formRef = useRef(null);
   const [users, setUsers] = useState({});
 
@@ -36,7 +36,7 @@ const SignIn = ({ display, onSignIn }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (display) return onSignIn(false);
+    if (signIn) return onSignIn("");
     const temp = {
       id: formRef.current.id.value,
       pw: formRef.current.password.value,
@@ -51,7 +51,7 @@ const SignIn = ({ display, onSignIn }) => {
   return (
     <SignInContainer>
       <form ref={formRef} onSubmit={handleSubmit}>
-        {display ? (
+        {signIn ? (
           <>
             <h2>Sign Out</h2>
           </>
